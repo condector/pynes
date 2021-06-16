@@ -1,5 +1,6 @@
 import addressingMode
 
+
 # TODO: Verificar se nao existem enderecamentos maiores que 1 byte
 def rel_addr(value):
     if value & 0b10000000:
@@ -8,14 +9,17 @@ def rel_addr(value):
 
     return value
 
+
 def advancePC(cpu, size):
     cpu.registers['PC'] += size
 
+
 def setN(cpu, value):
-    if value & (1<<7) == 1 << 7:
+    if value & (1 << 7) == 1 << 7:
         cpu.setStatus(cpu.statusFlags['n'], 1)
     else:
         cpu.setStatus(cpu.statusFlags['n'], 0)
+
 
 def setZ(cpu, value):
     if value == 0:
@@ -23,13 +27,15 @@ def setZ(cpu, value):
     else:
         cpu.setStatus(cpu.statusFlags['z'], 0)
 
+
 def setO(cpu, value):
     cpu.setStatus(cpu.statusFlags['v'], value)
+
 
 def setC(cpu, value):
     cpu.setStatus(cpu.statusFlags['c'], value)
 
-# Feito!
+
 def ADC_Immediate(cpu):
     size = 2
     nCycles = 2
@@ -45,7 +51,7 @@ def ADC_Immediate(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def ADC_Zero(cpu):
     size = 2
     nCycles = 3
@@ -54,7 +60,7 @@ def ADC_Zero(cpu):
     value = cpu.readMemory(address)
     carry = cpu.getStatus(cpu.statusFlags['c'])
     tmp = value + cpu.registers['A'] + carry
-    setO(cpu, not(((cpu.registers['A'] ^ value) & 0x80)!=0) and (((cpu.registers['A'] ^ tmp) & 0x80)))
+    setO(cpu, not(((cpu.registers['A'] ^ value) & 0x80) != 0) and (((cpu.registers['A'] ^ tmp) & 0x80)))
     setC(cpu, tmp > 0xFF)
     setN(cpu, tmp)
     setZ(cpu, tmp & 0xFF)
@@ -62,7 +68,7 @@ def ADC_Zero(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def ADC_Zero_X(cpu):
     size = 2
     nCycles = 4
@@ -71,7 +77,7 @@ def ADC_Zero_X(cpu):
     value = cpu.readMemory(address)
     carry = cpu.getStatus(cpu.statusFlags['c'])
     tmp = value + cpu.registers['A'] + carry
-    setO(cpu, not(((cpu.registers['A'] ^ value) & 0x80)!=0) and (((cpu.registers['A'] ^ tmp) & 0x80)))
+    setO(cpu, not(((cpu.registers['A'] ^ value) & 0x80) != 0) and (((cpu.registers['A'] ^ tmp) & 0x80)))
     setC(cpu, tmp > 255)
     setN(cpu, tmp)
     setZ(cpu, tmp & 0xFF)
@@ -79,7 +85,7 @@ def ADC_Zero_X(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def ADC_Absolute(cpu):
     size = 3
     nCycles = 4
@@ -88,7 +94,7 @@ def ADC_Absolute(cpu):
     value = cpu.readMemory(address)
     carry = cpu.getStatus(cpu.statusFlags['c'])
     tmp = value + cpu.registers['A'] + carry
-    setO(cpu, not(((cpu.registers['A'] ^ value) & 0x80)!=0) and (((cpu.registers['A'] ^ tmp) & 0x80)))
+    setO(cpu, not(((cpu.registers['A'] ^ value) & 0x80) != 0) and (((cpu.registers['A'] ^ tmp) & 0x80)))
     setC(cpu, tmp > 255)
     setN(cpu, tmp)
     setZ(cpu, tmp & 0xFF)
@@ -96,7 +102,7 @@ def ADC_Absolute(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def ADC_Absolute_X(cpu):
     size = 3
     nCycles = 4
@@ -105,7 +111,7 @@ def ADC_Absolute_X(cpu):
     value = cpu.readMemory(address)
     carry = cpu.getStatus(cpu.statusFlags['c'])
     tmp = value + cpu.registers['A'] + carry
-    setO(cpu, not(((cpu.registers['A'] ^ value) & 0x80)!=0) and (((cpu.registers['A'] ^ tmp) & 0x80)))
+    setO(cpu, not(((cpu.registers['A'] ^ value) & 0x80) != 0) and (((cpu.registers['A'] ^ tmp) & 0x80)))
     setC(cpu, tmp > 255)
     setN(cpu, tmp)
     setZ(cpu, tmp & 0xFF)
@@ -113,7 +119,7 @@ def ADC_Absolute_X(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def ADC_Absolute_Y(cpu):
     size = 3
     nCycles = 4
@@ -122,7 +128,7 @@ def ADC_Absolute_Y(cpu):
     value = cpu.readMemory(address)
     carry = cpu.getStatus(cpu.statusFlags['c'])
     tmp = value + cpu.registers['A'] + carry
-    setO(cpu, not(((cpu.registers['A'] ^ value) & 0x80)!=0) and (((cpu.registers['A'] ^ tmp) & 0x80)))
+    setO(cpu, not(((cpu.registers['A'] ^ value) & 0x80) != 0) and (((cpu.registers['A'] ^ tmp) & 0x80)))
     setC(cpu, tmp > 255)
     setN(cpu, tmp)
     setZ(cpu, tmp & 0xFF)
@@ -130,7 +136,8 @@ def ADC_Absolute_Y(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
+
 def ADC_Indirect_X(cpu):
     size = 2
     nCycles = 6
@@ -147,7 +154,7 @@ def ADC_Indirect_X(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def ADC_Indirect_Y(cpu):
     size = 2
     nCycles = 5
@@ -156,7 +163,7 @@ def ADC_Indirect_Y(cpu):
     value = cpu.readMemory(address)
     carry = cpu.getStatus(cpu.statusFlags['c'])
     tmp = value + cpu.registers['A'] + carry
-    setO(cpu, not(((cpu.registers['A'] ^ value) & 0x80)!=0) and (((cpu.registers['A'] ^ tmp) & 0x80)))
+    setO(cpu, not(((cpu.registers['A'] ^ value) & 0x80) != 0) and (((cpu.registers['A'] ^ tmp) & 0x80)))
     setC(cpu, tmp > 255)
     setN(cpu, tmp)
     setZ(cpu, tmp & 0xFF)
@@ -164,7 +171,7 @@ def ADC_Indirect_Y(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def AND_Immediate(cpu):
     size = 2
     nCycles = 2
@@ -176,7 +183,7 @@ def AND_Immediate(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def AND_Zero(cpu):
     size = 2
     nCycles = 3
@@ -189,7 +196,7 @@ def AND_Zero(cpu):
     setZ(cpu, cpu.registers['A'])
     return nCycles
 
-# Feito!
+
 def AND_Zero_X(cpu):
     size = 2
     nCycles = 4
@@ -202,7 +209,7 @@ def AND_Zero_X(cpu):
     setZ(cpu, cpu.registers['A'])
     return nCycles
 
-# Feito!
+
 def AND_Absolute(cpu):
     size = 3
     nCycles = 4
@@ -215,7 +222,7 @@ def AND_Absolute(cpu):
     setZ(cpu, cpu.registers['A'])
     return nCycles
 
-# Feito!
+
 def AND_Absolute_X(cpu):
     size = 3
     nCycles = 4
@@ -228,7 +235,7 @@ def AND_Absolute_X(cpu):
     setZ(cpu, cpu.registers['A'])
     return nCycles
 
-# Feito!
+
 def AND_Absolute_Y(cpu):
     size = 3
     nCycles = 4
@@ -241,7 +248,7 @@ def AND_Absolute_Y(cpu):
     setZ(cpu, cpu.registers['A'])
     return nCycles
 
-# Feito!
+
 def AND_Indirect_X(cpu):
     size = 2
     nCycles = 6
@@ -254,7 +261,7 @@ def AND_Indirect_X(cpu):
     setZ(cpu, cpu.registers['A'])
     return nCycles
 
-# Feito!
+
 def AND_Indirect_Y(cpu):
     size = 2
     nCycles = 5
@@ -267,7 +274,7 @@ def AND_Indirect_Y(cpu):
     setZ(cpu, cpu.registers['A'])
     return nCycles
 
-# Feito!
+
 def ASL_Accumulator(cpu):
     size = 1
     nCycles = 2
@@ -282,7 +289,7 @@ def ASL_Accumulator(cpu):
     cpu.registers['A'] = value
     return nCycles
 
-# Feito!
+
 def ASL_Zero(cpu):
     size = 2
     nCycles = 5
@@ -298,7 +305,7 @@ def ASL_Zero(cpu):
     cpu.writeMemory(address, value)
     return nCycles
 
-# Feito!
+
 def ASL_Zero_X(cpu):
     size = 2
     nCycles = 6
@@ -314,7 +321,7 @@ def ASL_Zero_X(cpu):
     cpu.writeMemory(address, value)
     return nCycles
 
-# Feito!
+
 def ASL_Absolute(cpu):
     size = 3
     nCycles = 6
@@ -330,7 +337,7 @@ def ASL_Absolute(cpu):
     cpu.writeMemory(address, value)
     return nCycles
 
-# Feito!
+
 def ASL_Absolute_X(cpu):
     size = 3
     nCycles = 7
@@ -346,14 +353,14 @@ def ASL_Absolute_X(cpu):
     cpu.writeMemory(address, value)
     return nCycles
 
-# Feito!
+
 def BCC_Relative(cpu):
     size = 2
     nCycles = 2
 
     value = cpu.readMemory(cpu.registers['PC']+1)
     value = rel_addr(value)
-    if cpu.getStatus(cpu.statusFlags['c']) == False:
+    if not cpu.getStatus(cpu.statusFlags['c']):
         if (cpu.registers['PC'] & 0xFF00) != ((cpu.registers['PC'] + value) & 0xFF00):
             nCycles += 2
         else:
@@ -362,14 +369,14 @@ def BCC_Relative(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def BCS_Relative(cpu):
     size = 2
     nCycles = 2
 
     value = cpu.readMemory(cpu.registers['PC']+1)
     value = rel_addr(value)
-    if cpu.getStatus(cpu.statusFlags['c']) == True:
+    if cpu.getStatus(cpu.statusFlags['c']):
         if (cpu.registers['PC'] & 0xFF00) != ((cpu.registers['PC'] + value) & 0xFF00):
             nCycles += 2
         else:
@@ -378,14 +385,14 @@ def BCS_Relative(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def BEQ_Relative(cpu):
     size = 2
     nCycles = 2
 
     value = cpu.readMemory(cpu.registers['PC']+1)
     value = rel_addr(value)
-    if cpu.getStatus(cpu.statusFlags['z']) == True:
+    if cpu.getStatus(cpu.statusFlags['z']):
         if (cpu.registers['PC'] & 0xFF00) != ((cpu.registers['PC'] + value) & 0xFF00):
             nCycles += 2
         else:
@@ -394,7 +401,7 @@ def BEQ_Relative(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def BIT_Zero(cpu):
     size = 2
     nCycles = 3
@@ -407,7 +414,7 @@ def BIT_Zero(cpu):
     setO(cpu, (value >> 6) & 1)
     return nCycles
 
-# Feito!
+
 def BIT_Absolute(cpu):
     size = 3
     nCycles = 4
@@ -420,14 +427,14 @@ def BIT_Absolute(cpu):
     setO(cpu, (value >> 6) & 1)
     return nCycles
 
-# Feito!
+
 def BMI_Relative(cpu):
     size = 2
     nCycles = 2
 
     value = cpu.readMemory(cpu.registers['PC']+1)
     value = rel_addr(value)
-    if cpu.getStatus(cpu.statusFlags['n']) == True:
+    if cpu.getStatus(cpu.statusFlags['n']):
         if (cpu.registers['PC'] & 0xFF00) != ((cpu.registers['PC'] + value) & 0xFF00):
             nCycles += 2
         else:
@@ -436,14 +443,14 @@ def BMI_Relative(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def BNE_Relative(cpu):
     size = 2
     nCycles = 2
 
     value = cpu.readMemory(cpu.registers['PC']+1)
     value = rel_addr(value)
-    if cpu.getStatus(cpu.statusFlags['z']) == False:
+    if not cpu.getStatus(cpu.statusFlags['z']):
         if (cpu.registers['PC'] & 0xFF00) != ((cpu.registers['PC'] + value) & 0xFF00):
             nCycles += 2
         else:
@@ -452,14 +459,14 @@ def BNE_Relative(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def BPL_Relative(cpu):
     size = 2
     nCycles = 2
 
     value = cpu.readMemory(cpu.registers['PC']+1)
     value = rel_addr(value)
-    if cpu.getStatus(cpu.statusFlags['n']) == False:
+    if not cpu.getStatus(cpu.statusFlags['n']):
         nCycles += 1
         if (cpu.registers['PC'] & 0xFF00) != ((cpu.registers['PC'] + value) & 0xFF00):
             nCycles += 1
@@ -468,7 +475,7 @@ def BPL_Relative(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def BRK_Implied(cpu):
     size = 1
     nCycles = 7
@@ -479,18 +486,18 @@ def BRK_Implied(cpu):
     cpu.setStatus(cpu.statusFlags['b'], 1)
     cpu.pushStack(cpu.registers['P'])
     cpu.setStatus(cpu.statusFlags['i'], 1)
-    cpu.registers['PC'] = (cpu.readMemory(0xFFFE) | (cpu.readMemory(0xFFFF) << 8))
+    cpu.InterruptRequest = 0x49
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def BVC_Relative(cpu):
     size = 2
     nCycles = 2
 
     value = cpu.readMemory(cpu.registers['PC']+1)
     value = rel_addr(value)
-    if cpu.getStatus(cpu.statusFlags['v']) == False:
+    if not cpu.getStatus(cpu.statusFlags['v']):
         if (cpu.registers['PC'] & 0xFF00) != ((cpu.registers['PC'] + value) & 0xFF00):
             nCycles += 2
         else:
@@ -499,14 +506,14 @@ def BVC_Relative(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def BVS_Relative(cpu):
     size = 2
     nCycles = 2
 
     value = cpu.readMemory(cpu.registers['PC']+1)
     value = rel_addr(value)
-    if cpu.getStatus(cpu.statusFlags['v']) == True:
+    if cpu.getStatus(cpu.statusFlags['v']):
         if (cpu.registers['PC'] & 0xFF00) != ((cpu.registers['PC'] + value) & 0xFF00):
             nCycles += 2
         else:
@@ -515,7 +522,7 @@ def BVS_Relative(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def CLC_Implied(cpu):
     size = 1
     nCycles = 2
@@ -524,7 +531,7 @@ def CLC_Implied(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def CLD_Implied(cpu):
     size = 1
     nCycles = 2
@@ -533,7 +540,7 @@ def CLD_Implied(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def CLI_Implied(cpu):
     size = 1
     nCycles = 2
@@ -542,7 +549,7 @@ def CLI_Implied(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def CLV_Implied(cpu):
     size = 1
     nCycles = 2
@@ -551,7 +558,7 @@ def CLV_Implied(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def CMP_Immediate(cpu):
     size = 2
     nCycles = 2
@@ -564,7 +571,7 @@ def CMP_Immediate(cpu):
     setZ(cpu, value & 0xFF)
     return nCycles
 
-# Feito!
+
 def CMP_Zero(cpu):
     size = 2
     nCycles = 3
@@ -578,7 +585,7 @@ def CMP_Zero(cpu):
     setZ(cpu, value & 0xFF)
     return nCycles
 
-# Feito!
+
 def CMP_Zero_X(cpu):
     size = 2
     nCycles = 4
@@ -592,7 +599,7 @@ def CMP_Zero_X(cpu):
     setZ(cpu, value & 0xFF)
     return nCycles
 
-# Feito!
+
 def CMP_Absolute(cpu):
     size = 3
     nCycles = 4
@@ -606,7 +613,7 @@ def CMP_Absolute(cpu):
     setZ(cpu, value & 0xFF)
     return nCycles
 
-# Feito!
+
 def CMP_Absolute_X(cpu):
     size = 3
     nCycles = 4
@@ -620,7 +627,7 @@ def CMP_Absolute_X(cpu):
     setZ(cpu, value & 0xFF)
     return nCycles
 
-# Feito!
+
 def CMP_Absolute_Y(cpu):
     size = 3
     nCycles = 4
@@ -634,7 +641,7 @@ def CMP_Absolute_Y(cpu):
     setZ(cpu, value & 0xFF)
     return nCycles
 
-# Feito!
+
 def CMP_Indirect_X(cpu):
     size = 2
     nCycles = 6
@@ -648,7 +655,7 @@ def CMP_Indirect_X(cpu):
     setZ(cpu, value & 0xFF)
     return nCycles
 
-# Feito!
+
 def CMP_Indirect_Y(cpu):
     size = 2
     nCycles = 5
@@ -662,7 +669,7 @@ def CMP_Indirect_Y(cpu):
     setZ(cpu, value & 0xFF)
     return nCycles
 
-# Feito!
+
 def CPX_Immediate(cpu):
     size = 2
     nCycles = 2
@@ -675,7 +682,7 @@ def CPX_Immediate(cpu):
     setZ(cpu, value & 0xFF)
     return nCycles
 
-# Feito!
+
 def CPX_Zero(cpu):
     size = 2
     nCycles = 3
@@ -689,7 +696,7 @@ def CPX_Zero(cpu):
     setZ(cpu, value & 0xFF)
     return nCycles
 
-# Feito!
+
 def CPX_Absolute(cpu):
     size = 3
     nCycles = 4
@@ -703,7 +710,7 @@ def CPX_Absolute(cpu):
     setZ(cpu, value & 0xFF)
     return nCycles
 
-# Feito!
+
 def CPY_Immediate(cpu):
     size = 2
     nCycles = 2
@@ -716,7 +723,7 @@ def CPY_Immediate(cpu):
     setZ(cpu, value & 0xFF)
     return nCycles
 
-# Feito!
+
 def CPY_Zero(cpu):
     size = 2
     nCycles = 3
@@ -730,7 +737,7 @@ def CPY_Zero(cpu):
     setZ(cpu, value & 0xFF)
     return nCycles
 
-# Feito!
+
 def CPY_Absolute(cpu):
     size = 3
     nCycles = 4
@@ -744,7 +751,7 @@ def CPY_Absolute(cpu):
     setZ(cpu, value & 0xFF)
     return nCycles
 
-# Feito!
+
 def DEC_Zero(cpu):
     size = 2
     nCycles = 5
@@ -758,7 +765,7 @@ def DEC_Zero(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def DEC_Zero_X(cpu):
     size = 2
     nCycles = 6
@@ -772,7 +779,7 @@ def DEC_Zero_X(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def DEC_Absolute(cpu):
     size = 3
     nCycles = 6
@@ -786,7 +793,7 @@ def DEC_Absolute(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def DEC_Absolute_X(cpu):
     size = 3
     nCycles = 7
@@ -800,7 +807,7 @@ def DEC_Absolute_X(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def DEX_Implied(cpu):
     size = 1
     nCycles = 2
@@ -813,7 +820,7 @@ def DEX_Implied(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def DEY_Implied(cpu):
     size = 1
     nCycles = 2
@@ -826,7 +833,7 @@ def DEY_Implied(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def EOR_Immediate(cpu):
     size = 2
     nCycles = 2
@@ -839,7 +846,7 @@ def EOR_Immediate(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def EOR_Zero(cpu):
     size = 2
     nCycles = 3
@@ -853,7 +860,7 @@ def EOR_Zero(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def EOR_Zero_X(cpu):
     size = 2
     nCycles = 4
@@ -867,7 +874,7 @@ def EOR_Zero_X(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def EOR_Absolute(cpu):
     size = 3
     nCycles = 4
@@ -881,7 +888,7 @@ def EOR_Absolute(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def EOR_Absolute_X(cpu):
     size = 3
     nCycles = 4
@@ -895,7 +902,7 @@ def EOR_Absolute_X(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def EOR_Absolute_Y(cpu):
     size = 3
     nCycles = 4
@@ -909,7 +916,7 @@ def EOR_Absolute_Y(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def EOR_Indirect_X(cpu):
     size = 2
     nCycles = 6
@@ -923,7 +930,7 @@ def EOR_Indirect_X(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def EOR_Indirect_Y(cpu):
     size = 2
     nCycles = 5
@@ -937,7 +944,7 @@ def EOR_Indirect_Y(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def INC_Zero(cpu):
     size = 2
     nCycles = 5
@@ -951,7 +958,7 @@ def INC_Zero(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def INC_Zero_X(cpu):
     size = 2
     nCycles = 6
@@ -965,7 +972,7 @@ def INC_Zero_X(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def INC_Absolute(cpu):
     size = 3
     nCycles = 6
@@ -979,7 +986,7 @@ def INC_Absolute(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def INC_Absolute_X(cpu):
     size = 3
     nCycles = 7
@@ -993,7 +1000,7 @@ def INC_Absolute_X(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def INX_Implied(cpu):
     size = 1
     nCycles = 2
@@ -1006,7 +1013,7 @@ def INX_Implied(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def INY_Implied(cpu):
     size = 1
     nCycles = 2
@@ -1019,7 +1026,7 @@ def INY_Implied(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def JMP_Absolute(cpu):
     size = 3
     nCycles = 3
@@ -1029,7 +1036,7 @@ def JMP_Absolute(cpu):
     cpu.registers['PC'] = address
     return nCycles
 
-# Feito!
+
 def JMP_Indirect(cpu):
     size = 3
     nCycles = 5
@@ -1039,7 +1046,7 @@ def JMP_Indirect(cpu):
     cpu.registers['PC'] = address
     return nCycles
 
-# Feito!
+
 def JSR_Absolute(cpu):
     size = 3
     nCycles = 6
@@ -1051,7 +1058,7 @@ def JSR_Absolute(cpu):
     cpu.registers['PC'] = address
     return nCycles
 
-# Feito!
+
 def LDA_Immediate(cpu):
     size = 2
     nCycles = 2
@@ -1063,7 +1070,7 @@ def LDA_Immediate(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def LDA_Zero(cpu):
     size = 2
     nCycles = 3
@@ -1076,7 +1083,7 @@ def LDA_Zero(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def LDA_Zero_X(cpu):
     size = 2
     nCycles = 4
@@ -1089,7 +1096,7 @@ def LDA_Zero_X(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def LDA_Absolute(cpu):
     size = 3
     nCycles = 4
@@ -1102,7 +1109,7 @@ def LDA_Absolute(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def LDA_Absolute_X(cpu):
     size = 3
     nCycles = 4
@@ -1115,7 +1122,7 @@ def LDA_Absolute_X(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def LDA_Absolute_Y(cpu):
     size = 3
     nCycles = 4
@@ -1128,7 +1135,7 @@ def LDA_Absolute_Y(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def LDA_Indirect_X(cpu):
     size = 2
     nCycles = 6
@@ -1141,7 +1148,7 @@ def LDA_Indirect_X(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def LDA_Indirect_Y(cpu):
     size = 2
     nCycles = 5
@@ -1154,7 +1161,7 @@ def LDA_Indirect_Y(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def LDX_Immediate(cpu):
     size = 2
     nCycles = 2
@@ -1166,7 +1173,7 @@ def LDX_Immediate(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def LDX_Zero(cpu):
     size = 2
     nCycles = 3
@@ -1179,7 +1186,7 @@ def LDX_Zero(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def LDX_Zero_Y(cpu):
     size = 2
     nCycles = 4
@@ -1192,7 +1199,7 @@ def LDX_Zero_Y(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def LDX_Absolute(cpu):
     size = 3
     nCycles = 4
@@ -1205,7 +1212,7 @@ def LDX_Absolute(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def LDX_Absolute_Y(cpu):
     size = 3
     nCycles = 4
@@ -1218,7 +1225,7 @@ def LDX_Absolute_Y(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def LDY_Immediate(cpu):
     size = 2
     nCycles = 2
@@ -1230,7 +1237,7 @@ def LDY_Immediate(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def LDY_Zero(cpu):
     size = 2
     nCycles = 3
@@ -1243,7 +1250,7 @@ def LDY_Zero(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def LDY_Zero_X(cpu):
     size = 2
     nCycles = 4
@@ -1256,7 +1263,7 @@ def LDY_Zero_X(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def LDY_Absolute(cpu):
     size = 3
     nCycles = 4
@@ -1269,7 +1276,7 @@ def LDY_Absolute(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def LDY_Absolute_X(cpu):
     size = 3
     nCycles = 4
@@ -1282,7 +1289,7 @@ def LDY_Absolute_X(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def LSR_Accumulator(cpu):
     size = 1
     nCycles = 2
@@ -1296,7 +1303,7 @@ def LSR_Accumulator(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def LSR_Zero(cpu):
     size = 2
     nCycles = 5
@@ -1311,7 +1318,7 @@ def LSR_Zero(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def LSR_Zero_X(cpu):
     size = 2
     nCycles = 6
@@ -1326,7 +1333,7 @@ def LSR_Zero_X(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def LSR_Absolute(cpu):
     size = 3
     nCycles = 6
@@ -1341,7 +1348,7 @@ def LSR_Absolute(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def LSR_Absolute_X(cpu):
     size = 3
     nCycles = 7
@@ -1356,7 +1363,7 @@ def LSR_Absolute_X(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def NOP_Implied(cpu):
     size = 1
     nCycles = 2
@@ -1364,7 +1371,7 @@ def NOP_Implied(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def ORA_Immediate(cpu):
     size = 2
     nCycles = 2
@@ -1377,7 +1384,7 @@ def ORA_Immediate(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def ORA_Zero(cpu):
     size = 2
     nCycles = 3
@@ -1391,7 +1398,7 @@ def ORA_Zero(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def ORA_Zero_X(cpu):
     size = 2
     nCycles = 4
@@ -1405,7 +1412,7 @@ def ORA_Zero_X(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def ORA_Absolute(cpu):
     size = 3
     nCycles = 4
@@ -1419,7 +1426,7 @@ def ORA_Absolute(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def ORA_Absolute_X(cpu):
     size = 3
     nCycles = 4
@@ -1433,7 +1440,7 @@ def ORA_Absolute_X(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def ORA_Absolute_Y(cpu):
     size = 3
     nCycles = 4
@@ -1447,7 +1454,7 @@ def ORA_Absolute_Y(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def ORA_Indirect_X(cpu):
     size = 2
     nCycles = 6
@@ -1461,7 +1468,7 @@ def ORA_Indirect_X(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def ORA_Indirect_Y(cpu):
     size = 2
     nCycles = 5
@@ -1475,7 +1482,7 @@ def ORA_Indirect_Y(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def PHA_Implied(cpu):
     size = 1
     nCycles = 3
@@ -1485,7 +1492,7 @@ def PHA_Implied(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def PHP_Implied(cpu):
     size = 1
     nCycles = 3
@@ -1495,7 +1502,7 @@ def PHP_Implied(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def PLA_Implied(cpu):
     size = 1
     nCycles = 4
@@ -1507,7 +1514,7 @@ def PLA_Implied(cpu):
     setZ(cpu, value)
     return nCycles
 
-# Feito!
+
 def PLP_Implied(cpu):
     size = 1
     nCycles = 4
@@ -1520,7 +1527,7 @@ def PLP_Implied(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def ROL_Accumulator(cpu):
     size = 1
     nCycles = 2
@@ -1535,7 +1542,7 @@ def ROL_Accumulator(cpu):
     cpu.registers['A'] = value
     return nCycles
 
-# Feito!
+
 def ROL_Zero(cpu):
     size = 2
     nCycles = 5
@@ -1551,7 +1558,7 @@ def ROL_Zero(cpu):
     cpu.writeMemory(address, value)
     return nCycles
 
-# Feito!
+
 def ROL_Zero_X(cpu):
     size = 2
     nCycles = 6
@@ -1567,7 +1574,7 @@ def ROL_Zero_X(cpu):
     cpu.writeMemory(address, value)
     return nCycles
 
-# Feito!
+
 def ROL_Absolute(cpu):
     size = 3
     nCycles = 6
@@ -1583,7 +1590,7 @@ def ROL_Absolute(cpu):
     cpu.writeMemory(address, value)
     return nCycles
 
-# Feito!
+
 def ROL_Absolute_X(cpu):
     size = 3
     nCycles = 7
@@ -1599,7 +1606,7 @@ def ROL_Absolute_X(cpu):
     cpu.writeMemory(address, value)
     return nCycles
 
-# Feito!
+
 def ROR_Accumulator(cpu):
     size = 1
     nCycles = 2
@@ -1615,7 +1622,7 @@ def ROR_Accumulator(cpu):
     cpu.registers['A'] = value
     return nCycles
 
-# Feito!
+
 def ROR_Zero(cpu):
     size = 2
     nCycles = 5
@@ -1631,7 +1638,7 @@ def ROR_Zero(cpu):
     cpu.writeMemory(address, value)
     return nCycles
 
-# Feito!
+
 def ROR_Zero_X(cpu):
     size = 2
     nCycles = 6
@@ -1647,7 +1654,7 @@ def ROR_Zero_X(cpu):
     cpu.writeMemory(address, value)
     return nCycles
 
-# Feito!
+
 def ROR_Absolute(cpu):
     size = 3
     nCycles = 6
@@ -1663,7 +1670,7 @@ def ROR_Absolute(cpu):
     cpu.writeMemory(address, value)
     return nCycles
 
- # Feito!
+
 def ROR_Absolute_X(cpu):
     size = 3
     nCycles = 7
@@ -1679,7 +1686,7 @@ def ROR_Absolute_X(cpu):
     cpu.writeMemory(address, value)
     return nCycles
 
-# Feito!
+
 def RTI_Implied(cpu):
     size = 1
     nCycles = 6
@@ -1692,7 +1699,7 @@ def RTI_Implied(cpu):
     cpu.registers['PC'] = value
     return nCycles
 
-# Feito!
+
 def RTS_Implied(cpu):
     size = 1
     nCycles = 6
@@ -1703,7 +1710,7 @@ def RTS_Implied(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def SBC_Immediate(cpu):
     size = 2
     nCycles = 2
@@ -1720,7 +1727,7 @@ def SBC_Immediate(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def SBC_Zero(cpu):
     size = 2
     nCycles = 3
@@ -1737,7 +1744,7 @@ def SBC_Zero(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def SBC_Zero_X(cpu):
     size = 2
     nCycles = 4
@@ -1754,7 +1761,7 @@ def SBC_Zero_X(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def SBC_Absolute(cpu):
     size = 3
     nCycles = 4
@@ -1771,7 +1778,7 @@ def SBC_Absolute(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def SBC_Absolute_X(cpu):
     size = 3
     nCycles = 4
@@ -1788,7 +1795,7 @@ def SBC_Absolute_X(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def SBC_Absolute_Y(cpu):
     size = 3
     nCycles = 4
@@ -1805,7 +1812,7 @@ def SBC_Absolute_Y(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def SBC_Indirect_X(cpu):
     size = 2
     nCycles = 6
@@ -1822,7 +1829,7 @@ def SBC_Indirect_X(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def SBC_Indirect_Y(cpu):
     size = 2
     nCycles = 5
@@ -1839,7 +1846,7 @@ def SBC_Indirect_Y(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def SEC_Implied(cpu):
     size = 1
     nCycles = 2
@@ -1848,7 +1855,7 @@ def SEC_Implied(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def SED_Implied(cpu):
     size = 1
     nCycles = 2
@@ -1857,7 +1864,7 @@ def SED_Implied(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def SEI_Implied(cpu):
     size = 1
     nCycles = 2
@@ -1866,7 +1873,7 @@ def SEI_Implied(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def STA_Zero(cpu):
     size = 2
     nCycles = 3
@@ -1876,7 +1883,7 @@ def STA_Zero(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def STA_Zero_X(cpu):
     size = 2
     nCycles = 4
@@ -1886,7 +1893,7 @@ def STA_Zero_X(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def STA_Absolute(cpu):
     size = 3
     nCycles = 4
@@ -1896,7 +1903,7 @@ def STA_Absolute(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def STA_Absolute_X(cpu):
     size = 3
     nCycles = 5
@@ -1906,7 +1913,7 @@ def STA_Absolute_X(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def STA_Absolute_Y(cpu):
     size = 3
     nCycles = 5
@@ -1916,7 +1923,7 @@ def STA_Absolute_Y(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def STA_Indirect_X(cpu):
     size = 2
     nCycles = 6
@@ -1926,7 +1933,7 @@ def STA_Indirect_X(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def STA_Indirect_Y(cpu):
     size = 2
     nCycles = 6
@@ -1936,7 +1943,7 @@ def STA_Indirect_Y(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def STX_Zero(cpu):
     size = 2
     nCycles = 3
@@ -1946,7 +1953,7 @@ def STX_Zero(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def STX_Zero_Y(cpu):
     size = 2
     nCycles = 4
@@ -1956,7 +1963,7 @@ def STX_Zero_Y(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def STX_Absolute(cpu):
     size = 3
     nCycles = 4
@@ -1966,7 +1973,7 @@ def STX_Absolute(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def STY_Zero(cpu):
     size = 2
     nCycles = 3
@@ -1976,7 +1983,7 @@ def STY_Zero(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def STY_Zero_X(cpu):
     size = 2
     nCycles = 4
@@ -1986,7 +1993,7 @@ def STY_Zero_X(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def STY_Absolute(cpu):
     size = 3
     nCycles = 4
@@ -1996,7 +2003,7 @@ def STY_Absolute(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def TAX_Implied(cpu):
     size = 1
     nCycles = 2
@@ -2008,7 +2015,7 @@ def TAX_Implied(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def TAY_Implied(cpu):
     size = 1
     nCycles = 2
@@ -2020,7 +2027,7 @@ def TAY_Implied(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def TSX_Implied(cpu):
     size = 1
     nCycles = 2
@@ -2032,7 +2039,7 @@ def TSX_Implied(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def TXA_Implied(cpu):
     size = 1
     nCycles = 2
@@ -2044,7 +2051,7 @@ def TXA_Implied(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def TXS_Implied(cpu):
     size = 1
     nCycles = 2
@@ -2053,7 +2060,7 @@ def TXS_Implied(cpu):
     advancePC(cpu, size)
     return nCycles
 
-# Feito!
+
 def TYA_Implied(cpu):
     size = 1
     nCycles = 2
@@ -2548,7 +2555,7 @@ def RRA_Zero(cpu):
     cpu.writeMemory(address, value)
     carry = cpu.getStatus(cpu.statusFlags['c'])
     tmp = value + cpu.registers['A'] + carry
-    setO(cpu, not(((cpu.registers['A'] ^ value) & 0x80)!=0) and (((cpu.registers['A'] ^ tmp) & 0x80)))
+    setO(cpu, not(((cpu.registers['A'] ^ value) & 0x80) != 0) and (((cpu.registers['A'] ^ tmp) & 0x80)))
     setC(cpu, tmp > 0xFF)
     setN(cpu, tmp)
     setZ(cpu, tmp & 0xFF)
@@ -2569,7 +2576,7 @@ def RRA_Zero_X(cpu):
     cpu.writeMemory(address, value)
     carry = cpu.getStatus(cpu.statusFlags['c'])
     tmp = value + cpu.registers['A'] + carry
-    setO(cpu, not(((cpu.registers['A'] ^ value) & 0x80)!=0) and (((cpu.registers['A'] ^ tmp) & 0x80)))
+    setO(cpu, not(((cpu.registers['A'] ^ value) & 0x80) != 0) and (((cpu.registers['A'] ^ tmp) & 0x80)))
     setC(cpu, tmp > 0xFF)
     setN(cpu, tmp)
     setZ(cpu, tmp & 0xFF)
@@ -2590,7 +2597,7 @@ def RRA_Absolute(cpu):
     cpu.writeMemory(address, value)
     carry = cpu.getStatus(cpu.statusFlags['c'])
     tmp = value + cpu.registers['A'] + carry
-    setO(cpu, not(((cpu.registers['A'] ^ value) & 0x80)!=0) and (((cpu.registers['A'] ^ tmp) & 0x80)))
+    setO(cpu, not(((cpu.registers['A'] ^ value) & 0x80) != 0) and (((cpu.registers['A'] ^ tmp) & 0x80)))
     setC(cpu, tmp > 0xFF)
     setN(cpu, tmp)
     setZ(cpu, tmp & 0xFF)
@@ -2611,7 +2618,7 @@ def RRA_Absolute_X(cpu):
     cpu.writeMemory(address, value)
     carry = cpu.getStatus(cpu.statusFlags['c'])
     tmp = value + cpu.registers['A'] + carry
-    setO(cpu, not(((cpu.registers['A'] ^ value) & 0x80)!=0) and (((cpu.registers['A'] ^ tmp) & 0x80)))
+    setO(cpu, not(((cpu.registers['A'] ^ value) & 0x80) != 0) and (((cpu.registers['A'] ^ tmp) & 0x80)))
     setC(cpu, tmp > 0xFF)
     setN(cpu, tmp)
     setZ(cpu, tmp & 0xFF)
@@ -2632,7 +2639,7 @@ def RRA_Absolute_Y(cpu):
     cpu.writeMemory(address, value)
     carry = cpu.getStatus(cpu.statusFlags['c'])
     tmp = value + cpu.registers['A'] + carry
-    setO(cpu, not(((cpu.registers['A'] ^ value) & 0x80)!=0) and (((cpu.registers['A'] ^ tmp) & 0x80)))
+    setO(cpu, not(((cpu.registers['A'] ^ value) & 0x80) != 0) and (((cpu.registers['A'] ^ tmp) & 0x80)))
     setC(cpu, tmp > 0xFF)
     setN(cpu, tmp)
     setZ(cpu, tmp & 0xFF)
@@ -2653,7 +2660,7 @@ def RRA_Indirect_X(cpu):
     cpu.writeMemory(address, value)
     carry = cpu.getStatus(cpu.statusFlags['c'])
     tmp = value + cpu.registers['A'] + carry
-    setO(cpu, not(((cpu.registers['A'] ^ value) & 0x80)!=0) and (((cpu.registers['A'] ^ tmp) & 0x80)))
+    setO(cpu, not(((cpu.registers['A'] ^ value) & 0x80) != 0) and (((cpu.registers['A'] ^ tmp) & 0x80)))
     setC(cpu, tmp > 0xFF)
     setN(cpu, tmp)
     setZ(cpu, tmp & 0xFF)
@@ -2674,7 +2681,7 @@ def RRA_Indirect_Y(cpu):
     cpu.writeMemory(address, value)
     carry = cpu.getStatus(cpu.statusFlags['c'])
     tmp = value + cpu.registers['A'] + carry
-    setO(cpu, not(((cpu.registers['A'] ^ value) & 0x80)!=0) and (((cpu.registers['A'] ^ tmp) & 0x80)))
+    setO(cpu, not(((cpu.registers['A'] ^ value) & 0x80) != 0) and (((cpu.registers['A'] ^ tmp) & 0x80)))
     setC(cpu, tmp > 0xFF)
     setN(cpu, tmp)
     setZ(cpu, tmp & 0xFF)
